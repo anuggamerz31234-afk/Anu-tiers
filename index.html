@@ -128,6 +128,7 @@
             font-size: 13px;
             font-weight: 600;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .nav-links a:hover {
@@ -141,23 +142,104 @@
             border: 1px solid rgba(255, 51, 51, 0.3);
         }
 
-        /* Main Content - Updated Layout */
+        /* Main Content */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+        }
+
+        /* Section Containers */
+        .section {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HOME SECTION */
+        .home-hero {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 10px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 140, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .home-hero h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #ff8c00;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
+            letter-spacing: -1px;
+        }
+
+        .home-hero p {
+            font-size: 18px;
+            color: #ccc;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+
+        .home-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 51, 51, 0.05);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 51, 51, 0.2);
+        }
+
+        .feature-card h3 {
+            color: #ff3333;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #888;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* TIERS SECTION - Same as before */
+        .tiers-layout {
             display: grid;
             grid-template-columns: 1fr 280px;
             gap: 30px;
         }
 
-        .main-left {
+        .tiers-left {
             display: flex;
             flex-direction: column;
             gap: 30px;
         }
 
-        /* Server IP Section - Updated to Nuxo Tiers with Neon Orange */
         .server-info {
             background: rgba(20, 20, 30, 0.6);
             backdrop-filter: blur(10px);
@@ -216,7 +298,6 @@
             box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
         }
 
-        /* Testing Servers Sidebar Box */
         .testing-servers {
             background: rgba(20, 20, 30, 0.6);
             backdrop-filter: blur(10px);
@@ -279,7 +360,6 @@
             color: #ccc;
         }
 
-        /* Rankings Table */
         .rankings-header {
             display: grid;
             grid-template-columns: 60px 1fr 100px 1fr;
@@ -430,13 +510,37 @@
             font-weight: 800;
         }
 
+        /* TESTERS SECTION */
+        .testers-placeholder {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            border-radius: 16px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .testers-placeholder h2 {
+            font-size: 32px;
+            color: #ff3333;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .testers-placeholder p {
+            color: #888;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
         .title-master { color: #fbbf24; }
         .title-ace { color: #a78bfa; }
         .title-specialist { color: #60a5fa; }
 
         /* Responsive */
         @media (max-width: 968px) {
-            .main-content {
+            .tiers-layout {
                 grid-template-columns: 1fr;
             }
 
@@ -464,6 +568,14 @@
             .server-ip {
                 font-size: 28px;
             }
+
+            .home-hero h1 {
+                font-size: 32px;
+            }
+
+            .home-hero p {
+                font-size: 16px;
+            }
         }
 
         .footer {
@@ -490,64 +602,106 @@
         <div class="nav-container">
             <a href="#" class="logo">Nuxo <span>Tiers</span></a>
             <nav class="nav-links">
-                <a href="#" class="active">Overall</a>
-                <a href="#">LTMs</a>
-                <a href="#">Vanilla</a>
-                <a href="#">UHC</a>
-                <a href="#">Pot</a>
-                <a href="#">NethOP</a>
-                <a href="#">SMP</a>
-                <a href="#">Sword</a>
-                <a href="#">Axe</a>
-                <a href="#">Mace</a>
+                <a href="#" class="active" data-section="home">Home</a>
+                <a href="#" data-section="tiers">Tiers</a>
+                <a href="#" data-section="testers">Testers</a>
             </nav>
         </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Left Side - Main Content -->
-        <div class="main-left">
-            <!-- Server Info - Now shows Nuxo Tiers in Neon Orange -->
-            <div class="server-info">
-                <h2>Welcome to</h2>
-                <div class="server-ip" id="serverIp">Nuxo Tiers</div>
-                <button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
-            </div>
+        <!-- HOME SECTION -->
+        <div class="section active" id="home">
+            <div class="home-hero">
+                <h1>Welcome to Nuxo Tiers</h1>
+                <p>
+                    The ultimate Minecraft PvP tier testing platform. Test your skills across multiple game modes, 
+                    compete with the best players, and earn your place on the leaderboard.
+                </p>
+                <p>
+                    Our server is designed specifically for tier testing with multiple game modes including 
+                    NethPot, Sword, Crystal, Mace, and more. Feel free to test your combat abilities and see 
+                    where you rank among the community!
+                </p>
 
-            <!-- Rankings -->
-            <div>
-                <div class="rankings-header">
-                    <div>#</div>
-                    <div>Player</div>
-                    <div>Region</div>
-                    <div class="tiers-col">Tiers</div>
-                </div>
-
-                <div class="rankings-list" id="rankingsList">
-                    <!-- Players rendered by JavaScript -->
+                <div class="home-features">
+                    <div class="feature-card">
+                        <h3>⚔️ Multiple Game Modes</h3>
+                        <p>Test your skills in NethPot, Sword, Crystal, Mace, and many more PvP game modes</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🏆 Competitive Rankings</h3>
+                        <p>Climb the leaderboard and prove you're the best. Earn tiers from LT4 to HT1</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🎯 Fair Testing</h3>
+                        <p>Balanced gameplay with no pay-to-win. Pure skill-based competition</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>🌍 Global Community</h3>
+                        <p>Join players from NA, EU, AS, and AU regions in epic PvP battles</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Right Side - Testing Servers Box -->
-        <aside class="testing-servers">
-            <h3>Testing Servers</h3>
-            <div class="server-list">
-                <div class="server-item" onclick="copyServerIP('alwto.net')">
-                    <div class="server-number">1</div>
-                    <div class="server-name">alwto.net</div>
+        <!-- TIERS SECTION -->
+        <div class="section" id="tiers">
+            <div class="tiers-layout">
+                <!-- Left Side - Main Content -->
+                <div class="tiers-left">
+                    <!-- Server Info -->
+                    <div class="server-info">
+                        <h2>Welcome to</h2>
+                        <div class="server-ip" id="serverIp">Nuxo Tiers</div>
+                        <button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
+                    </div>
+
+                    <!-- Rankings -->
+                    <div>
+                        <div class="rankings-header">
+                            <div>#</div>
+                            <div>Player</div>
+                            <div>Region</div>
+                            <div class="tiers-col">Tiers</div>
+                        </div>
+
+                        <div class="rankings-list" id="rankingsList">
+                            <!-- Players rendered by JavaScript -->
+                        </div>
+                    </div>
                 </div>
-                <div class="server-item" onclick="copyServerIP('as.minemen.club')">
-                    <div class="server-number">2</div>
-                    <div class="server-name">as.minemen.club</div>
-                </div>
-                <div class="server-item" onclick="copyServerIP('pvpparadise.net')">
-                    <div class="server-number">3</div>
-                    <div class="server-name">pvpparadise.net</div>
-                </div>
+
+                <!-- Right Side - Testing Servers Box -->
+                <aside class="testing-servers">
+                    <h3>Testing Servers</h3>
+                    <div class="server-list">
+                        <div class="server-item" onclick="copyServerIP('alwto.net')">
+                            <div class="server-number">1</div>
+                            <div class="server-name">alwto.net</div>
+                        </div>
+                        <div class="server-item" onclick="copyServerIP('as.minemen.club')">
+                            <div class="server-number">2</div>
+                            <div class="server-name">as.minemen.club</div>
+                        </div>
+                        <div class="server-item" onclick="copyServerIP('pvpparadise.net')">
+                            <div class="server-number">3</div>
+                            <div class="server-name">pvpparadise.net</div>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        </aside>
+        </div>
+
+        <!-- TESTERS SECTION -->
+        <div class="section" id="testers">
+            <div class="testers-placeholder">
+                <h2>Testers Section</h2>
+                <p>This section will showcase our official tier testers and their achievements.<br>
+                Coming soon...</p>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -560,6 +714,24 @@
         setTimeout(() => {
             document.getElementById('loadingScreen').classList.add('hidden');
         }, 2200);
+
+        // Section Navigation
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active from all links
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                
+                // Show selected section
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
 
         // Player data with game modes
         const players = [
@@ -671,14 +843,7 @@
             });
         }
 
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
+        // Initialize
         renderPlayers();
     </script>
 </body>
