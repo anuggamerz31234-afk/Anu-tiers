@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anu Tiers - Rankings</title>
+    <title>Nuxo Tiers - Rankings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,17 +12,78 @@
             box-sizing: border-box;
         }
 
+        /* LOADING SCREEN */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #050505;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ff3333;
+            margin-bottom: 30px;
+            text-shadow: 0 0 20px rgba(255, 51, 51, 0.5);
+            letter-spacing: 2px;
+        }
+
+        .loading-bar-container {
+            width: 300px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.2);
+        }
+
+        .loading-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff3333, #ff0000);
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.8);
+            animation: loadProgress 2s ease-in-out forwards;
+        }
+
+        @keyframes loadProgress {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at top center, #111118, #050505);
             color: #ffffff;
             min-height: 100vh;
+            animation: pageLoad 0.8s ease-out;
+        }
+
+        @keyframes pageLoad {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Header / Navigation */
         .header {
-            background-color: #111111;
-            border-bottom: 1px solid #222;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding: 15px 0;
             position: sticky;
             top: 0;
@@ -40,14 +102,16 @@
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 26px;
+            font-weight: 800;
             color: #fff;
             text-decoration: none;
+            letter-spacing: -0.5px;
         }
 
         .logo span {
-            color: #6366f1;
+            color: #ff3333;
+            text-shadow: 0 0 15px rgba(255, 51, 51, 0.4);
         }
 
         .nav-links {
@@ -57,110 +121,212 @@
         }
 
         .nav-links a {
-            color: #aaa;
+            color: #888;
             text-decoration: none;
             padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            transition: all 0.2s;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .nav-links a:hover {
             color: #fff;
-            background-color: #222;
+            background-color: rgba(255, 255, 255, 0.05);
         }
 
         .nav-links a.active {
             color: #fff;
-            background-color: #6366f1;
+            background-color: rgba(255, 51, 51, 0.15);
+            border: 1px solid rgba(255, 51, 51, 0.3);
         }
 
-        /* Main Content */
+        /* Main Content - Updated Layout */
         .main-content {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px 20px;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 30px;
         }
 
-        /* Server IP Section */
+        .main-left {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* Server IP Section - Updated to Nuxo Tiers with Neon Orange */
         .server-info {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 16px;
+            padding: 30px;
             text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 140, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .server-info:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 140, 0, 0.15);
         }
 
         .server-info h2 {
-            font-size: 14px;
-            color: #888;
+            font-size: 13px;
+            color: #666;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
 
         .server-ip {
-            font-size: 28px;
-            font-weight: bold;
-            color: #6366f1;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ff8c00;
             cursor: pointer;
-            transition: color 0.2s;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 30px rgba(255, 140, 0, 0.5);
         }
 
         .server-ip:hover {
-            color: #818cf8;
+            color: #ffa500;
+            text-shadow: 0 0 40px rgba(255, 140, 0, 0.7);
         }
 
         .copy-btn {
-            background-color: #6366f1;
+            background: linear-gradient(135deg, #ff8c00, #ff6600);
             color: white;
             border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
+            padding: 10px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             font-size: 14px;
-            transition: background-color 0.2s;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
         }
 
         .copy-btn:hover {
-            background-color: #4f46e5;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+        }
+
+        /* Testing Servers Sidebar Box */
+        .testing-servers {
+            background: rgba(20, 20, 30, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 51, 51, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            height: fit-content;
+        }
+
+        .testing-servers h3 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ff3333;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 51, 51, 0.2);
+        }
+
+        .server-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .server-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .server-item:hover {
+            background: rgba(255, 51, 51, 0.1);
+            transform: translateX(5px);
+        }
+
+        .server-number {
+            font-size: 12px;
+            font-weight: 700;
+            color: #ff3333;
+            background: rgba(255, 51, 51, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .server-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ccc;
         }
 
         /* Rankings Table */
         .rankings-header {
             display: grid;
             grid-template-columns: 60px 1fr 100px 1fr;
-            padding: 15px 20px;
-            background-color: #111;
-            border-radius: 8px 8px 0 0;
-            border: 1px solid #222;
-            font-weight: bold;
-            font-size: 14px;
-            color: #888;
+            padding: 15px 24px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px 12px 0 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 13px;
+            color: #666;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .rankings-list {
-            border: 1px solid #222;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-top: none;
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 12px 12px;
             overflow: hidden;
+            background: rgba(10, 10, 15, 0.5);
         }
 
         .player-row {
             display: grid;
             grid-template-columns: 60px 1fr 100px 1fr;
-            padding: 18px 20px;
-            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             align-items: center;
-            transition: background-color 0.2s;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .player-row:hover {
-            background-color: #151515;
+            background-color: rgba(255, 51, 51, 0.03);
         }
 
         .player-row:last-child {
@@ -168,88 +334,117 @@
         }
 
         .rank-number {
-            font-size: 18px;
-            font-weight: bold;
-            color: #666;
+            font-size: 20px;
+            font-weight: 800;
+            color: #444;
         }
 
-        .rank-number.top-1 { color: #ffd700; }
-        .rank-number.top-2 { color: #c0c0c0; }
-        .rank-number.top-3 { color: #cd7f32; }
+        .rank-number.top-1 { 
+            color: #ffd700; 
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4);
+        }
+        .rank-number.top-2 { 
+            color: #c0c0c0; 
+            text-shadow: 0 0 15px rgba(192, 192, 192, 0.4);
+        }
+        .rank-number.top-3 { 
+            color: #cd7f32; 
+            text-shadow: 0 0 15px rgba(205, 127, 50, 0.4);
+        }
 
         .player-info {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
         }
 
         .player-name {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 17px;
+            font-weight: 700;
             color: #fff;
+            letter-spacing: -0.3px;
         }
 
         .player-title {
             font-size: 12px;
-            color: #888;
+            color: #666;
+            font-weight: 500;
         }
 
         .player-title .points {
-            color: #6366f1;
-            font-weight: 600;
+            color: #ff3333;
+            font-weight: 700;
         }
 
         .region {
-            font-size: 14px;
-            color: #aaa;
-            font-weight: 500;
+            font-size: 13px;
+            color: #888;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 6px;
+            display: inline-block;
+            width: fit-content;
         }
 
         .tiers {
             display: flex;
-            gap: 6px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
         .tier-badge {
-            padding: 6px 10px;
-            border-radius: 4px;
+            padding: 8px 12px;
+            border-radius: 8px;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 800;
             text-transform: uppercase;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 2px;
+            gap: 3px;
+            background-color: rgba(255, 51, 51, 0.05);
+            border: 1.5px solid #ff3333;
+            color: #ff6666;
+            box-shadow: 0 0 10px rgba(255, 51, 51, 0.1);
+            transition: all 0.3s ease;
+            min-width: 60px;
+        }
+
+        .tier-badge:hover {
+            background-color: rgba(255, 51, 51, 0.15);
+            box-shadow: 0 0 20px rgba(255, 51, 51, 0.3);
+            transform: translateY(-3px);
+            border-color: #ff5555;
         }
 
         .tier-mode {
             font-size: 9px;
-            opacity: 0.9;
-            font-weight: 500;
+            opacity: 0.8;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
 
         .tier-rank {
-            font-size: 12px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
         }
 
-        /* Tier Colors */
-        .tier-ht1 { background-color: #dc2626; color: #fff; }
-        .tier-ht2 { background-color: #ea580c; color: #fff; }
-        .tier-ht3 { background-color: #d97706; color: #fff; }
-        .tier-ht4 { background-color: #65a30d; color: #fff; }
-        .tier-lt1 { background-color: #0891b2; color: #fff; }
-        .tier-lt2 { background-color: #2563eb; color: #fff; }
-        .tier-lt3 { background-color: #7c3aed; color: #fff; }
-        .tier-lt4 { background-color: #475569; color: #fff; }
-
-        /* Title Colors */
         .title-master { color: #fbbf24; }
         .title-ace { color: #a78bfa; }
         .title-specialist { color: #60a5fa; }
 
         /* Responsive */
+        @media (max-width: 968px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .testing-servers {
+                order: -1;
+            }
+        }
+
         @media (max-width: 768px) {
             .rankings-header,
             .player-row {
@@ -265,24 +460,35 @@
                 padding: 6px 10px;
                 font-size: 12px;
             }
+            
+            .server-ip {
+                font-size: 28px;
+            }
         }
 
-        /* Footer */
         .footer {
             text-align: center;
-            padding: 30px;
-            color: #555;
-            font-size: 14px;
-            border-top: 1px solid #222;
-            margin-top: 50px;
+            padding: 40px;
+            color: #444;
+            font-size: 13px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 60px;
         }
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-text">NUXO TIERS</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar"></div>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="header">
         <div class="nav-container">
-            <a href="#" class="logo">Anu <span>Tiers</span></a>
+            <a href="#" class="logo">Nuxo <span>Tiers</span></a>
             <nav class="nav-links">
                 <a href="#" class="active">Overall</a>
                 <a href="#">LTMs</a>
@@ -300,32 +506,61 @@
 
     <!-- Main Content -->
     <main class="main-content">
-        <!-- Server Info -->
-        <div class="server-info">
-            <h2>Server IP</h2>
-            <div class="server-ip" id="serverIp">alwto.net</div>
-            <button class="copy-btn" onclick="copyIP()">Copy IP</button>
+        <!-- Left Side - Main Content -->
+        <div class="main-left">
+            <!-- Server Info - Now shows Nuxo Tiers in Neon Orange -->
+            <div class="server-info">
+                <h2>Welcome to</h2>
+                <div class="server-ip" id="serverIp">Nuxo Tiers</div>
+                <button class="copy-btn" onclick="copyIP()">Copy Server IP</button>
+            </div>
+
+            <!-- Rankings -->
+            <div>
+                <div class="rankings-header">
+                    <div>#</div>
+                    <div>Player</div>
+                    <div>Region</div>
+                    <div class="tiers-col">Tiers</div>
+                </div>
+
+                <div class="rankings-list" id="rankingsList">
+                    <!-- Players rendered by JavaScript -->
+                </div>
+            </div>
         </div>
 
-        <!-- Rankings -->
-        <div class="rankings-header">
-            <div>#</div>
-            <div>Player</div>
-            <div>Region</div>
-            <div class="tiers-col">Tiers</div>
-        </div>
-
-        <div class="rankings-list" id="rankingsList">
-            <!-- Players rendered by JavaScript -->
-        </div>
+        <!-- Right Side - Testing Servers Box -->
+        <aside class="testing-servers">
+            <h3>Testing Servers</h3>
+            <div class="server-list">
+                <div class="server-item" onclick="copyServerIP('alwto.net')">
+                    <div class="server-number">1</div>
+                    <div class="server-name">alwto.net</div>
+                </div>
+                <div class="server-item" onclick="copyServerIP('as.minemen.club')">
+                    <div class="server-number">2</div>
+                    <div class="server-name">as.minemen.club</div>
+                </div>
+                <div class="server-item" onclick="copyServerIP('pvpparadise.net')">
+                    <div class="server-number">3</div>
+                    <div class="server-name">pvpparadise.net</div>
+                </div>
+            </div>
+        </aside>
     </main>
 
     <!-- Footer -->
     <footer class="footer">
-        <p>&copy; 2026 Anu Tiers - Minecraft PvP Rankings</p>
+        <p>&copy; 2026 Nuxo Tiers - Premium Minecraft PvP Rankings</p>
     </footer>
 
     <script>
+        // Hide loading screen after animation
+        setTimeout(() => {
+            document.getElementById('loadingScreen').classList.add('hidden');
+        }, 2200);
+
         // Player data with game modes
         const players = [
             { 
@@ -377,7 +612,7 @@
             const list = document.getElementById('rankingsList');
             let html = '';
 
-            players.forEach(player => {
+            players.forEach((player, index) => {
                 const tiersHtml = player.tiers.map(t => {
                     return `
                         <div class="tier-badge ${getTierClass(t.tier)}">
@@ -387,12 +622,14 @@
                     `;
                 }).join('');
 
+                const delay = index * 0.15; 
+
                 html += `
-                    <div class="player-row">
+                    <div class="player-row" style="animation-delay: ${delay}s">
                         <div class="rank-number ${getRankClass(player.rank)}">#${player.rank}</div>
                         <div class="player-info">
                             <div class="player-name">${player.name}</div>
-                            <div class="player-title ${getTitleClass(player.title)}">${player.title} <span class="points">(${player.points} points)</span></div>
+                            <div class="player-title ${getTitleClass(player.title)}">${player.title} <span class="points">(${player.points} pts)</span></div>
                         </div>
                         <div class="region">${player.region}</div>
                         <div class="tiers">${tiersHtml}</div>
@@ -404,15 +641,36 @@
         }
 
         function copyIP() {
-            const ip = document.getElementById('serverIp').textContent;
+            const ip = 'alwto.net';
             navigator.clipboard.writeText(ip).then(() => {
                 const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
                 btn.textContent = 'Copied!';
-                setTimeout(() => { btn.textContent = 'Copy IP'; }, 2000);
+                btn.style.background = 'linear-gradient(135deg, #22c55e, #16a34a)';
+                setTimeout(() => { 
+                    btn.textContent = originalText; 
+                    btn.style.background = 'linear-gradient(135deg, #ff8c00, #ff6600)';
+                }, 2000);
             });
         }
 
-        // Navigation active state
+        function copyServerIP(ip) {
+            navigator.clipboard.writeText(ip).then(() => {
+                const items = document.querySelectorAll('.server-item');
+                items.forEach(item => {
+                    if (item.querySelector('.server-name').textContent === ip) {
+                        const originalBg = item.style.background;
+                        item.style.background = 'rgba(34, 197, 94, 0.2)';
+                        item.querySelector('.server-name').textContent = 'Copied!';
+                        setTimeout(() => {
+                            item.style.background = originalBg;
+                            item.querySelector('.server-name').textContent = ip;
+                        }, 1500);
+                    }
+                });
+            });
+        }
+
         document.querySelectorAll('.nav-links a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -421,7 +679,6 @@
             });
         });
 
-        // Initialize
         renderPlayers();
     </script>
 </body>
