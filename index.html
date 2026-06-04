@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anu Tiers - Rankings</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Header / Navigation */
+        .header {
+            background-color: #111111;
+            border-bottom: 1px solid #222;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #6366f1;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #aaa;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            background-color: #222;
+        }
+
+        .nav-links a.active {
+            color: #fff;
+            background-color: #6366f1;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Server IP Section */
+        .server-info {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .server-info h2 {
+            font-size: 14px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .server-ip {
+            font-size: 28px;
+            font-weight: bold;
+            color: #6366f1;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .server-ip:hover {
+            color: #818cf8;
+        }
+
+        .copy-btn {
+            background-color: #6366f1;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #4f46e5;
+        }
+
+        /* Rankings Table */
+        .rankings-header {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px 1fr;
+            padding: 15px 20px;
+            background-color: #111;
+            border-radius: 8px 8px 0 0;
+            border: 1px solid #222;
+            font-weight: bold;
+            font-size: 14px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rankings-list {
+            border: 1px solid #222;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            overflow: hidden;
+        }
+
+        .player-row {
+            display: grid;
+            grid-template-columns: 60px 1fr 100px 1fr;
+            padding: 18px 20px;
+            border-bottom: 1px solid #1a1a1a;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+
+        .player-row:hover {
+            background-color: #151515;
+        }
+
+        .player-row:last-child {
+            border-bottom: none;
+        }
+
+        .rank-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #666;
+        }
+
+        .rank-number.top-1 { color: #ffd700; }
+        .rank-number.top-2 { color: #c0c0c0; }
+        .rank-number.top-3 { color: #cd7f32; }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .player-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .player-title {
+            font-size: 12px;
+            color: #888;
+        }
+
+        .player-title .points {
+            color: #6366f1;
+            font-weight: 600;
+        }
+
+        .region {
+            font-size: 14px;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        .tiers {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tier-badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .tier-mode {
+            font-size: 9px;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .tier-rank {
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Tier Colors */
+        .tier-ht1 { background-color: #dc2626; color: #fff; }
+        .tier-ht2 { background-color: #ea580c; color: #fff; }
+        .tier-ht3 { background-color: #d97706; color: #fff; }
+        .tier-ht4 { background-color: #65a30d; color: #fff; }
+        .tier-lt1 { background-color: #0891b2; color: #fff; }
+        .tier-lt2 { background-color: #2563eb; color: #fff; }
+        .tier-lt3 { background-color: #7c3aed; color: #fff; }
+        .tier-lt4 { background-color: #475569; color: #fff; }
+
+        /* Title Colors */
+        .title-master { color: #fbbf24; }
+        .title-ace { color: #a78bfa; }
+        .title-specialist { color: #60a5fa; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .rankings-header,
+            .player-row {
+                grid-template-columns: 40px 1fr 60px;
+            }
+
+            .rankings-header .tiers-col,
+            .player-row .tiers {
+                display: none;
+            }
+
+            .nav-links a {
+                padding: 6px 10px;
+                font-size: 12px;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #555;
+            font-size: 14px;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <a href="#" class="logo">Anu <span>Tiers</span></a>
+            <nav class="nav-links">
+                <a href="#" class="active">Overall</a>
+                <a href="#">LTMs</a>
+                <a href="#">Vanilla</a>
+                <a href="#">UHC</a>
+                <a href="#">Pot</a>
+                <a href="#">NethOP</a>
+                <a href="#">SMP</a>
+                <a href="#">Sword</a>
+                <a href="#">Axe</a>
+                <a href="#">Mace</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Server Info -->
+        <div class="server-info">
+            <h2>Server IP</h2>
+            <div class="server-ip" id="serverIp">alwto.net</div>
+            <button class="copy-btn" onclick="copyIP()">Copy IP</button>
+        </div>
+
+        <!-- Rankings -->
+        <div class="rankings-header">
+            <div>#</div>
+            <div>Player</div>
+            <div>Region</div>
+            <div class="tiers-col">Tiers</div>
+        </div>
+
+        <div class="rankings-list" id="rankingsList">
+            <!-- Players rendered by JavaScript -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 Anu Tiers - Minecraft PvP Rankings</p>
+    </footer>
+
+    <script>
+        // Player data with game modes
+        const players = [
+            { 
+                rank: 1, 
+                name: "Anurai_Playzz", 
+                title: "Combat Master", 
+                points: 330, 
+                region: "NA", 
+                tiers: [
+                    {mode: "Neth", tier: "HT3"},
+                    {mode: "Sword", tier: "LT3"},
+                    {mode: "Crystal", tier: "LT3"},
+                    {mode: "Mace", tier: "HT4"}
+                ] 
+            },
+            { 
+                rank: 2, 
+                name: "Sakeai", 
+                title: "Combat Master", 
+                points: 290, 
+                region: "EU", 
+                tiers: [
+                    {mode: "Neth", tier: "LT2"},
+                    {mode: "Sword", tier: "HT3"},
+                    {mode: "Mace", tier: "LT3"}
+                ] 
+            }
+        ];
+
+        function getTierClass(tier) {
+            return 'tier-' + tier.toLowerCase();
+        }
+
+        function getTitleClass(title) {
+            if (title.includes('Master')) return 'title-master';
+            if (title.includes('Ace')) return 'title-ace';
+            if (title.includes('Specialist')) return 'title-specialist';
+            return '';
+        }
+
+        function getRankClass(rank) {
+            if (rank === 1) return 'top-1';
+            if (rank === 2) return 'top-2';
+            if (rank === 3) return 'top-3';
+            return '';
+        }
+
+        function renderPlayers() {
+            const list = document.getElementById('rankingsList');
+            let html = '';
+
+            players.forEach(player => {
+                const tiersHtml = player.tiers.map(t => {
+                    return `
+                        <div class="tier-badge ${getTierClass(t.tier)}">
+                            <span class="tier-mode">${t.mode}</span>
+                            <span class="tier-rank">${t.tier}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                html += `
+                    <div class="player-row">
+                        <div class="rank-number ${getRankClass(player.rank)}">#${player.rank}</div>
+                        <div class="player-info">
+                            <div class="player-name">${player.name}</div>
+                            <div class="player-title ${getTitleClass(player.title)}">${player.title} <span class="points">(${player.points} points)</span></div>
+                        </div>
+                        <div class="region">${player.region}</div>
+                        <div class="tiers">${tiersHtml}</div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+        }
+
+        function copyIP() {
+            const ip = document.getElementById('serverIp').textContent;
+            navigator.clipboard.writeText(ip).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => { btn.textContent = 'Copy IP'; }, 2000);
+            });
+        }
+
+        // Navigation active state
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Initialize
+        renderPlayers();
+    </script>
+</body>
+</html>
